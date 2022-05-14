@@ -1,9 +1,59 @@
 #include "menu.h"
 #include "game.h"
+#include "gameover.h"
 
-int main(){
-    Menu menu( 600, 600);
-    menu.run();
-    }
+//0-menu
+//1-gameplay
+//2-gameover
+int gameState=1;
+bool gamePlay=false;
 
-//D:\BlackShark\User\Game\Arkanoid_by_BlackShark\src\include
+int main()
+{
+    RenderWindow window(VideoMode(600,600),"Arknoid",Style::Close);
+    window.setFramerateLimit(120);
+
+    Menu menu(window);
+    Game game(window);
+    GameOver over(window);
+    while (window.isOpen())
+    {
+        Event e;
+        while (window.pollEvent(e))
+        {
+            if(e.type==Event::Closed) 
+                {
+                    window.close();
+                }
+            switch (gameState)
+            {
+                    case 0:
+                        {
+                            menu.HandleEvent(e);
+                            break;
+                        }
+                    case 2:
+                        {
+                            over.HandleEvent(e,window);
+                            break;
+                        }
+            }
+        }
+            switch (gameState)
+            {
+            case 0:
+                menu.draw(window);   
+                break;
+            case 1:
+                game.Update();
+                game.draw(window);
+                break;
+            case 2:
+                over.draw(window);
+                break;
+            default:
+                break;
+            }        
+    }      
+}
+

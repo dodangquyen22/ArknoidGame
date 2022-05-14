@@ -2,7 +2,7 @@
 #include "gameover.h"
 
 
-Game::Game(float width, float height)
+Game::Game(RenderWindow &windowRef):m_windowRef(windowRef)
 {   
     t1.loadFromFile("image/back6.png");
     t2.loadFromFile("image/ball.png");  
@@ -19,7 +19,7 @@ Game::Game(float width, float height)
     paddle.setTexture(t3);
     paddle.setPosition(260,586);
     redBall.setTexture(t2);
-    redBall.setColor(sf::Color::Red);
+    redBall.setColor(Color::Red);
     addWidthPad.setTexture(taddPaddleWidth);
     doubleBall.setTexture(tdoubleBall);
    
@@ -39,41 +39,26 @@ Game::Game(float width, float height)
     redBall.setPosition(brick[s].getPosition().x,brick[s].getPosition().y);
     doubleBall.setPosition(brick[t].getPosition().x,brick[t].getPosition().y);
     addWidthPad.setPosition(brick[w].getPosition().x,brick[w].getPosition().y);
-    
-    scoreText.setCharacterSize(30);
-    font.loadFromFile("Font/font1.otf");
-    scoreText.setFont(font);
-    scoreText.setFillColor(sf::Color::Red);
-    scoreText.setPosition(0,0);
-    scoreText.setString("Score: ");
-    
-    toNum.setCharacterSize(30);
-    font.loadFromFile("Font/font1.otf");
-    toNum.setFont(font);
-    toNum.setFillColor(sf::Color::Yellow);
-    toNum.setPosition(0,40);
-    toNum.setString(to_string(scoreNum));
 
 }
 
-void Game::draw(sf::RenderWindow &window)
+void Game::draw(RenderWindow &m_windowRef)
 {
-  window.draw(back);
-  window.draw(ball);
-  window.draw(paddle);
-  window.draw(redBall);
-  window.draw(doubleBall);
-  window.draw(addWidthPad);
+  m_windowRef.clear();
+  m_windowRef.draw(back);
+  m_windowRef.draw(ball);
+  m_windowRef.draw(paddle);
+  m_windowRef.draw(redBall);
+  m_windowRef.draw(doubleBall);
+  m_windowRef.draw(addWidthPad);
   for(int i=0;i<n;i++)
   {
-      window.draw(brick[i]);
+      m_windowRef.draw(brick[i]);
   }
-  window.draw(scoreText);
-  window.draw(toNum);
-
+  m_windowRef.display();
 }
 
-void Game::EventProcess()
+void Game::Update()
 {
             ball.move(dx,0);
             for(int i=0;i<n;i++)
@@ -81,7 +66,7 @@ void Game::EventProcess()
                 if(isCollide(ball,brick[i])==true)
                     {
                         brick[i].setPosition(-100,0);
-                        if(ball.getColor()!=sf::Color::Red) dx=-dx;
+                        if(ball.getColor()!=Color::Red) dx=-dx;
                             if(i==s)
                             {
                                 isRedBallTouch=true;
@@ -117,7 +102,7 @@ void Game::EventProcess()
                 if(isCollide(ball,brick[i])==true)
                     {
                         brick[i].setPosition(-100,0);
-                        if(ball.getColor()!=sf::Color::Red) dy=-dy;  
+                        if(ball.getColor()!=Color::Red) dy=-dy;  
                 
                           if(i==s)
                             {
@@ -149,7 +134,7 @@ void Game::EventProcess()
 //Ktra paddle co cham duoc item khong            
             if(isCollide(redBall,paddle))
             {
-                ball.setColor(sf::Color::Red);
+                ball.setColor(Color::Red);
                 redBall.setPosition(-100,0);
             }
             if(isCollide(addWidthPad,paddle))
@@ -168,52 +153,21 @@ void Game::EventProcess()
                         dy=-(rand()%3+2);
                     }
 
-            sf::Vector2f g=ball.getPosition();
+            Vector2f g=ball.getPosition();
             if(g.x<50||g.x>550-16) dx=-dx; 
             if(g.y<0)    dy=-dy;
             if(g.y>600)
             {
                 isStop=true;
             }
-
-
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) paddle.move(6,0);
-            if((paddle.getPosition().x+paddle.getGlobalBounds().width)>550)
-            {
-                paddle.setPosition(550-paddle.getGlobalBounds().width-3,586);
-            }
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) paddle.move(-6,0);
+            
+            if(Keyboard::isKeyPressed(Keyboard::Right)) paddle.move(6,0);
+            if(Keyboard::isKeyPressed(Keyboard::Left)) paddle.move(-6,0);
+            if((paddle.getPosition().x+paddle.getGlobalBounds().width)>550) paddle.setPosition(550-paddle.getGlobalBounds().width-3,586);
             if(paddle.getPosition().x<50) paddle.setPosition(51,586);
+
 }
-
-void Game::run()
-{
-    sf::RenderWindow window(sf::VideoMode(600,600),"Game");
-    window.setFramerateLimit(120);
-    Game game(window.getSize().x,window.getSize().y);
-    
-    while(window.isOpen())
-    {
-        sf::Event e;
-        while(window.pollEvent(e))
-        {
-             if(e.type==sf::Event::Closed) window.close();
-        }
-
-        game.EventProcess();
-        if(game.isStop==true)
-        {
-                GameOver over(600,600);
-                window.close();
-                over.run();
-        }
-        window.clear();
-        game.draw(window);
-        window.display();
-    }
-}
-
-bool Game::isCollide(sf::Sprite s1, sf::Sprite s2)
+bool Game::isCollide(Sprite s1, Sprite s2)
 {
     if(s1.getGlobalBounds().intersects(s2.getGlobalBounds()))
         {

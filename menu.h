@@ -5,22 +5,23 @@
 #include<time.h>
 #define intMaxOption 3 
 #include <iostream>
-using namespace std;
+using namespace sf;
 class Menu
 {
 public:
-    Menu(float width,float height);
-    void draw(sf::RenderWindow &window);
-    void run();
+    Menu(RenderWindow &windowRef);
+    void HandleEvent(Event &eMenu);
     void MoveUp();
     void MoveDown();
     int getPrsessed();
+    void draw(sf::RenderWindow &m_windowRef);
 private:
     
     sf::Texture t1;
     sf::Sprite backg;
-    int numChoosen;
     sf::Font font;
     sf::Text text[intMaxOption];
+    int numChoosen=0;
+    RenderWindow &m_windowRef;//giu  cua so trong 
 };
 

@@ -1,12 +1,13 @@
 #include "menu.h"
 #include "game.h"
 
-Menu:: Menu(float width, float height)
+Menu:: Menu(RenderWindow &windowRef):m_windowRef(windowRef) /*Khoi tao lai m_windowRef voi tham chieu windowRef, windowRef tham chieu toi cua so window,1 cua so trong */
 {
 
-if(!font.loadFromFile("Font/font1.otf")){
-    cout<<"Fail to load font!";
-}   
+    if(!font.loadFromFile("Font/font1.otf"))
+    {
+        cout<<"Fail to load font!";
+    }   
     t1.loadFromFile("image/menuback.png");
     backg.setTexture(t1);
 
@@ -28,63 +29,43 @@ if(!font.loadFromFile("Font/font1.otf")){
     text[2].setFillColor(sf::Color::Red);
     text[2].setString("Exit");
     text[2].setPosition(260,300);
-    numChoosen=0;
-
 }
 
-void Menu::draw(sf::RenderWindow &window){
-    window.draw(backg);
+void Menu::draw(sf::RenderWindow &m_windowRef)
+{
+    m_windowRef.clear();
+    m_windowRef.draw(backg);
     for(int i=0;i<intMaxOption;i++)
     {
-        window.draw(text[i]);
+        m_windowRef.draw(text[i]);
     }
+    m_windowRef.display();
 }
 
-void Menu::run()
+void Menu::HandleEvent(Event &eMenu)
 {
-    sf::RenderWindow window(sf::VideoMode(600, 600),"Menu");
-    Menu menu(window.getSize().x,window.getSize().y);
-
-    while (window.isOpen())
-    {
-        sf::Event e;
-        while(window.pollEvent(e))
-        {
-            if(e.type==sf::Event::Closed)
-                {
-                   window.close();
-                }
-
-            if(e.type==sf::Event::KeyReleased)
-                {
-                    if(e.key.code==sf::Keyboard::Up)
+        if(eMenu.type==sf::Event::KeyReleased)
+            {
+                if(eMenu.key.code==sf::Keyboard::Up)
                     {
-                       menu.MoveUp();
+                        MoveUp();
                     }
-                    if(e.key.code==sf::Keyboard::Down)
+                if(eMenu.key.code==sf::Keyboard::Down)
                     {
-                       menu.MoveDown();
+                        MoveDown();
                     }
-                    if(e.key.code==sf::Keyboard::Return)
+                if(eMenu.key.code==sf::Keyboard::Return)
                     {
-                        if(menu.getPrsessed()==0)
-                        {
-                            Game game(600,600);
-                            window.close();
-                            game.run();
-                           
-                        }
-                        if(menu.getPrsessed()==2)
-                        {
-                            window.close();
-                        }
+                        if(getPrsessed()==0)
+                            {
+                                
+                            }
+                        if(getPrsessed()==2)
+                            {
+                                m_windowRef.close();
+                            }
                     }
-                }
-        }
-            window.clear();
-            menu.draw(window);
-            window.display();
-    }
+            }
 }
 
 void Menu::MoveUp(){

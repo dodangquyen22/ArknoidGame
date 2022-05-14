@@ -1,21 +1,24 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+using namespace sf;
 
 class GameOver
 {
 public:
-    GameOver(float width,float height);
-    void draw(sf::RenderWindow &window);
-    void run();
+    GameOver(RenderWindow &windowRef);
+    void draw(RenderWindow &m_windowRef);
+    void HandleEvent(Event &e,RenderWindow &m_windowRef);
     void MoveUp();
     void MoveDown();
     int getPrsessed();
 private:
     
-    sf::Texture t1;
-    sf::Sprite backg;
+    Texture t1;
+    Sprite backg;
     int numChoosen;
-    sf::Font font;
-    sf::Text text[2];
+    Font font;
+    Text text[2];
+    RenderWindow &m_windowRef;
+
 };
 

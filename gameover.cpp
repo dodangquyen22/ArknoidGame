@@ -2,7 +2,7 @@
 #include <iostream>
 #include "game.h"
 
-GameOver::GameOver(float width,float height)
+GameOver::GameOver(RenderWindow &windowRef):m_windowRef(windowRef)
 {
 
 if(!font.loadFromFile("Font/font1.otf")){
@@ -26,58 +26,41 @@ if(!font.loadFromFile("Font/font1.otf")){
     numChoosen=0;
 }
 
-void GameOver::draw(sf::RenderWindow &window)
+void GameOver::draw(sf::RenderWindow &m_windowRef)
 {
-   window.draw(backg);
-   window.draw(text[0]);
-   window.draw(text[1]);
+   m_windowRef.clear();
+   m_windowRef.draw(backg);
+   m_windowRef.draw(text[0]);
+   m_windowRef.draw(text[1]);
+   m_windowRef.display();
 }
-void GameOver::run()
+void GameOver::HandleEvent(Event &e,RenderWindow &m_windowRef)
 { 
-    sf::RenderWindow window(sf::VideoMode(600, 600),"GameOver");
-    GameOver over(window.getSize().x,window.getSize().y);
-
-    while (window.isOpen())
-    {
-        sf::Event e;
-        while(window.pollEvent(e))
+    if(e.type==sf::Event::KeyReleased)
         {
-            if(e.type==sf::Event::Closed)
+            if(e.key.code==sf::Keyboard::Up)
                 {
-                   window.close();
+                     MoveUp();
                 }
-
-            if(e.type==sf::Event::KeyReleased)
+            if(e.key.code==sf::Keyboard::Down)
                 {
-                    if(e.key.code==sf::Keyboard::Up)
-                    {
-                       over.MoveUp();
-                    }
-                    if(e.key.code==sf::Keyboard::Down)
-                    {
-                       over.MoveDown();
-                    }
-                    if(e.key.code==sf::Keyboard::Return)
-                    {
-                       if(over.getPrsessed()==0)
-                       {
-                            Game game(600,600);
-                            window.close();
-                            game.run();
-                            
-                       }
-                       if(over.getPrsessed()==1)
-                       {
-                           window.close();
-                       }
-                    }
+                    MoveDown();
                 }
-            }
-            window.clear();
-            over.draw(window);
-            window.display();
-    }
+            if(e.key.code==sf::Keyboard::Return)
+                    {
+                       if(getPrsessed()==0)
+                            {
+                           //replay
+                            }
+                       if(getPrsessed()==1)
+                            {
+                            //close window
+                                m_windowRef.close();
+                            }
+                    }
+        }
 }
+
 
 void GameOver::MoveUp(){
     if(numChoosen-1>=-1){
