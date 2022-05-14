@@ -14,13 +14,13 @@ public:
     void MoveUp();
     void MoveDown();
     int getPrsessed();
-    void draw(sf::RenderWindow &m_windowRef);
+    void draw();
 private:
     
-    sf::Texture t1;
-    sf::Sprite backg;
-    sf::Font font;
-    sf::Text text[intMaxOption];
+    Texture t1;
+    Sprite backg;
+    Font font;
+    Text text[intMaxOption];
     int numChoosen=0;
     RenderWindow &m_windowRef;//giu  cua so trong 
 };

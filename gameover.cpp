@@ -26,7 +26,7 @@ if(!font.loadFromFile("Font/font1.otf")){
     numChoosen=0;
 }
 
-void GameOver::draw(sf::RenderWindow &m_windowRef)
+void GameOver::draw()
 {
    m_windowRef.clear();
    m_windowRef.draw(backg);
@@ -34,7 +34,7 @@ void GameOver::draw(sf::RenderWindow &m_windowRef)
    m_windowRef.draw(text[1]);
    m_windowRef.display();
 }
-void GameOver::HandleEvent(Event &e,RenderWindow &m_windowRef)
+void GameOver::HandleEvent(Event &e)
 { 
     if(e.type==sf::Event::KeyReleased)
         {

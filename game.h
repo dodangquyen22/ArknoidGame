@@ -13,7 +13,7 @@ public:
         Texture t1,t2,t3,t4,tball,tdoubleBall,taddPaddleWidth;
         Sprite back,ball,paddle,brick[1000],redBall,addWidthPad,doubleBall,ball2;
         void Update();
-        void draw(RenderWindow &m_windowRef);
+        void draw();
         bool isCollide(Sprite s1,Sprite s2);
         bool isStop=false;
         bool isRedBallTouch=false;

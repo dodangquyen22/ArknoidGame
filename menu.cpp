@@ -31,7 +31,7 @@ Menu:: Menu(RenderWindow &windowRef):m_windowRef(windowRef) /*Khoi tao lai m_win
     text[2].setPosition(260,300);
 }
 
-void Menu::draw(sf::RenderWindow &m_windowRef)
+void Menu::draw()
 {
     m_windowRef.clear();
     m_windowRef.draw(backg);

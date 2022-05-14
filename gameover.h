@@ -6,8 +6,8 @@ class GameOver
 {
 public:
     GameOver(RenderWindow &windowRef);
-    void draw(RenderWindow &m_windowRef);
-    void HandleEvent(Event &e,RenderWindow &m_windowRef);
+    void draw();
+    void HandleEvent(Event &e);
     void MoveUp();
     void MoveDown();
     int getPrsessed();

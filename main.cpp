@@ -34,7 +34,7 @@ int main()
                         }
                     case 2:
                         {
-                            over.HandleEvent(e,window);
+                            over.HandleEvent(e);
                             break;
                         }
             }
@@ -42,14 +42,14 @@ int main()
             switch (gameState)
             {
             case 0:
-                menu.draw(window);   
+                menu.draw();   
                 break;
             case 1:
                 game.Update();
-                game.draw(window);
+                game.draw();
                 break;
             case 2:
-                over.draw(window);
+                over.draw();
                 break;
             default:
                 break;

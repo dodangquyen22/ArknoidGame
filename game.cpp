@@ -42,7 +42,7 @@ Game::Game(RenderWindow &windowRef):m_windowRef(windowRef)
 
 }
 
-void Game::draw(RenderWindow &m_windowRef)
+void Game::draw()
 {
   m_windowRef.clear();
   m_windowRef.draw(back);
