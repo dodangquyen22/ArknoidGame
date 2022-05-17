@@ -11,14 +11,13 @@ public:
     void MoveUp();
     void MoveDown();
     int getPrsessed();
+    void Update();
+
 private:
-    
     Texture t1;
     Sprite backg;
     int numChoosen;
     Font font;
     Text text[2];
     RenderWindow &m_windowRef;
-
 };
-
