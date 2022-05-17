@@ -44,10 +44,11 @@ public:
         bool isRedBallTouch = false;
         bool isaddWidthTouch = false;
         bool isDoubleBallTouch = false;
+        bool isGameStarted=false;
         //random value for hiding item
         int s, t, w;
         //ball moving distance
-        float dx = -2, dy = -3;
+        float dx = -4, dy = -5;
         //score
         Text mScore;
         int countScore;
@@ -57,6 +58,7 @@ public:
         Sprite Lives[10];
         int countLive;
         //
+        Text pressToStart;
         Font font;
         RenderWindow &m_windowRef;
 

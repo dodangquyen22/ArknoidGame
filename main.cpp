@@ -19,10 +19,9 @@ int main()
         while (window.pollEvent(e))
         {
             if (e.type == Event::Closed)
-            {
-                window.close();
-            }
-
+                {
+                 window.close();
+                }
             switch (GetGameState())
             {
             case 0:
@@ -50,7 +49,11 @@ int main()
             menu.draw();
             break;
         case 1:
-            game.Update();
+            if(game.isGameStarted==true)
+            {
+                game.pressToStart.setPosition(-1000,0);
+                game.Update();
+            }
             game.draw();
             break;
         case 2:

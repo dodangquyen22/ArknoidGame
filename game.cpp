@@ -39,7 +39,7 @@ Game::Game(RenderWindow &windowRef) : m_windowRef(windowRef)//initialise list
     addWidthPad.setTexture(taddPaddleWidth);
     //set position
     secondBall.setPosition(-100, 0);
-    ball.setPosition(284, 560);
+    ball.setPosition(296, 573);
     paddle.setPosition(260, 586);
     
     countLive=3;
@@ -58,6 +58,12 @@ Game::Game(RenderWindow &windowRef) : m_windowRef(windowRef)//initialise list
             k++;
         }
     }
+    
+    pressToStart.setCharacterSize(20);
+    pressToStart.setFont(font);
+    pressToStart.setFillColor(Color::White);
+    pressToStart.setPosition(160,280);
+    pressToStart.setString("Press space to start!");
 
     Reset();
 }
@@ -65,7 +71,7 @@ Game::Game(RenderWindow &windowRef) : m_windowRef(windowRef)//initialise list
 void Game::Reset()
 {
     secondBall.setPosition(-100, 0);
-    ball.setPosition(284, 560);
+    ball.setPosition(296, 573);
     ball.setColor(sf::Color::White);
     paddle.setPosition(260, 586);
     srand(time(nullptr));
@@ -81,7 +87,7 @@ void Game::Reset()
         }
     }
 
-    s = rand() % 20 + 80;
+    s = rand() % 60 + 80;
     t = rand() % 60 + 40;
     w = rand() % 40;
 
@@ -92,6 +98,7 @@ void Game::Reset()
     paddle.setScale(1,1);
     countScore=0;
     mScore.setString("Score: "+std::to_string(countScore));
+    pressToStart.setPosition(160,280);
 
 }
 
@@ -106,10 +113,13 @@ void Game::draw()
     m_windowRef.draw(addWidthPad);
     m_windowRef.draw(mScore);
     m_windowRef.draw(mLives);
+    m_windowRef.draw(pressToStart);
+    
     for(int i=0;i<countLive;i++)
     {
        m_windowRef.draw(Lives[i]);
     }
+    
     for (int i = 0; i < n; i++)
     {
         m_windowRef.draw(brick[i]);
@@ -120,6 +130,10 @@ void Game::draw()
 
 void Game::HandleEvent(sf::Event &event)
 {
+    if(Keyboard::isKeyPressed(Keyboard::Space))
+    {
+        isGameStarted=true;
+    }
 }
 
 void Game::Update()
@@ -230,8 +244,16 @@ void Game::Update()
         dy = -dy;
     if (g.y+12 > 600)
     {
+        countLive--;
+        isGameStarted=false;
+        Reset();
+        if(countLive==0)
+        {
             Reset();
             ChangeStateTo(2);
+            countLive=3;
+        }
+       
     }
 
 
