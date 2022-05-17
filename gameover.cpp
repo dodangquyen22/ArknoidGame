@@ -1,6 +1,5 @@
 #include "gameover.h"
 #include <iostream>
-#include "game.h"
 #include "GameStateManager.h"
 
 GameOver::GameOver(RenderWindow &windowRef) : m_windowRef(windowRef)
@@ -44,13 +43,13 @@ void GameOver::HandleEvent(Event &e)
 {
     if (e.type == sf::Event::KeyReleased)
     {
-        if (e.key.code == sf::Keyboard::Up)
+        if (e.key.code == sf::Keyboard::Left)
         {
-            MoveUp();
+            MoveLeft();
         }
-        if (e.key.code == sf::Keyboard::Down)
+        if (e.key.code == sf::Keyboard::Right)
         {
-            MoveDown();
+            MoveRight();
         }
         if (e.key.code == sf::Keyboard::Return)
         {
@@ -67,7 +66,7 @@ void GameOver::HandleEvent(Event &e)
     }
 }
 
-void GameOver::MoveUp()
+void GameOver::MoveLeft()
 {
     if (numChoosen - 1 >= -1)
     {
@@ -81,7 +80,7 @@ void GameOver::MoveUp()
     }
 }
 
-void GameOver::MoveDown()
+void GameOver::MoveRight()
 {
     if (numChoosen + 1 <= 2)
     {

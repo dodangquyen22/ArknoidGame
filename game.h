@@ -11,24 +11,53 @@ window:800x600
 ball:12x12
 paddle:90x10
 brick:40x20
+lives:25x25
 */
 class Game
 {
 public:
         Game(RenderWindow &windowRef);
-        Texture t1, t2, t3, t4, tball, tdoubleBall, taddPaddleWidth;
-        Sprite back, ball, paddle, brick[1000], redBall, addWidthPad, doubleBall, ball2;
+        //Background
+        Texture t1;
+        Sprite back;
+        //ball
+        Texture t2;
+        Sprite ball,secondBall;
+        //paddle
+        Texture t3;
+        Sprite paddle;
+        //brick
+        Texture t4;
+        Sprite brick[1000];
+        int n = 1000;
+        //additional item
+        Texture  tdoubleBall, taddPaddleWidth;
+        Sprite   redBall, addWidthPad, doubleBall;
+        //game function
         void Update();
         void HandleEvent(sf::Event &event);
         void Reset();
         void draw();
         bool isCollide(Sprite s1, Sprite s2);
+        void scoreUpdate();
+        //check-item-collect variables
         bool isRedBallTouch = false;
         bool isaddWidthTouch = false;
         bool isDoubleBallTouch = false;
-        int n = 1000;
+        //random value for hiding item
         int s, t, w;
+        //ball moving distance
         float dx = -2, dy = -3;
+        //score
+        Text mScore;
+        int countScore;
+        //lives
+        Text mLives;
+        Texture tLives;
+        Sprite Lives[10];
+        int countLive;
+        //
         Font font;
         RenderWindow &m_windowRef;
+
 };

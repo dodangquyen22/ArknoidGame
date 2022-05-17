@@ -3,9 +3,10 @@
 #include "gameover.h"
 #include "GameStateManager.h"
 
+
 int main()
 {
-    RenderWindow window(VideoMode(800, 600), "Arknoid", Style::Close);
+    RenderWindow window(VideoMode(800, 600), "BreakOut", Style::Close);
     window.setFramerateLimit(120);
 
     Menu menu(window);

@@ -8,8 +8,8 @@ public:
     GameOver(RenderWindow &windowRef);
     void draw();
     void HandleEvent(Event &e);
-    void MoveUp();
-    void MoveDown();
+    void MoveLeft();
+    void MoveRight();
     int getPrsessed();
     void Update();
 

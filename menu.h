@@ -18,10 +18,11 @@ public:
     void Update();
 
 private:
-    sf::Texture t1;
-    sf::Sprite backg;
-    sf::Font font;
-    sf::Text text[intMaxOption];
+    Texture t1;
+    Sprite backg;
+    Font font;
+    Text text[intMaxOption];
+    Text Name;
     int numChoosen = 0;
-    RenderWindow &m_windowRef; // giu  cua so trong
+    RenderWindow &m_windowRef;
 };

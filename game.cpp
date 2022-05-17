@@ -5,6 +5,21 @@
 
 Game::Game(RenderWindow &windowRef) : m_windowRef(windowRef)//initialise list
 {
+    //set score and live 
+    countScore=0;
+    font.loadFromFile("Font/VHTIFH.TTF");
+    mScore.setCharacterSize(20);
+    mScore.setFont(font);
+    mScore.setFillColor(Color::Yellow);
+    mScore.setPosition(630,60);
+    mScore.setString("Score: "+std::to_string(countScore));
+
+
+    mLives.setCharacterSize(20);
+    mLives.setFont(font);
+    mLives.setFillColor(Color::Yellow);
+    mLives.setPosition(630,100);
+    mLives.setString("Lives");
     //load image
     t1.loadFromFile("image/background.png");//backgound image
     t2.loadFromFile("image/ball.png");//ball image
@@ -12,20 +27,27 @@ Game::Game(RenderWindow &windowRef) : m_windowRef(windowRef)//initialise list
     t4.loadFromFile("image/brick.png");
     taddPaddleWidth.loadFromFile("image/addWidthPad.png");
     tdoubleBall.loadFromFile("image/doubleBall.png");
+    tLives.loadFromFile("image/lives.png");
     //set texture
     back.setTexture(t1);
     ball.setTexture(t2);
-    ball2.setTexture(t2);
+    secondBall.setTexture(t2);
     paddle.setTexture(t3);
     redBall.setTexture(t2);
     redBall.setColor(Color::Red);
     doubleBall.setTexture(tdoubleBall);
     addWidthPad.setTexture(taddPaddleWidth);
     //set position
-    ball2.setPosition(-100, 0);
+    secondBall.setPosition(-100, 0);
     ball.setPosition(284, 560);
     paddle.setPosition(260, 586);
-
+    
+    countLive=3;
+    for(int i=0;i<countLive;i++)
+    {
+        Lives[i].setTexture(tLives);
+        Lives[i].setPosition(630+i*25,140);
+    }
     int k = 0;
     for (int i = 0; i < 14; i++)
     {
@@ -42,7 +64,7 @@ Game::Game(RenderWindow &windowRef) : m_windowRef(windowRef)//initialise list
 
 void Game::Reset()
 {
-    ball2.setPosition(-100, 0);
+    secondBall.setPosition(-100, 0);
     ball.setPosition(284, 560);
     ball.setColor(sf::Color::White);
     paddle.setPosition(260, 586);
@@ -68,6 +90,9 @@ void Game::Reset()
     addWidthPad.setPosition(brick[w].getPosition().x, brick[w].getPosition().y);
     isRedBallTouch = isDoubleBallTouch = isaddWidthTouch = false;
     paddle.setScale(1,1);
+    countScore=0;
+    mScore.setString("Score: "+std::to_string(countScore));
+
 }
 
 void Game::draw()
@@ -79,7 +104,12 @@ void Game::draw()
     m_windowRef.draw(redBall);
     m_windowRef.draw(doubleBall);
     m_windowRef.draw(addWidthPad);
-
+    m_windowRef.draw(mScore);
+    m_windowRef.draw(mLives);
+    for(int i=0;i<countLive;i++)
+    {
+       m_windowRef.draw(Lives[i]);
+    }
     for (int i = 0; i < n; i++)
     {
         m_windowRef.draw(brick[i]);
@@ -101,6 +131,7 @@ void Game::Update()
         if (isCollide(ball, brick[i]) == true)
         {
             brick[i].setPosition(-100, 0);
+            scoreUpdate();
             if (ball.getColor() != Color::Red)
                 dx = -dx;
             if (i == s)
@@ -138,6 +169,7 @@ void Game::Update()
         if (isCollide(ball, brick[i]) == true)
         {
             brick[i].setPosition(-100, 0);
+            scoreUpdate();
             if (ball.getColor() != Color::Red)
                 dy = -dy;
 
@@ -182,7 +214,7 @@ void Game::Update()
     }
     if (isCollide(doubleBall, paddle))
     {
-        ball2.setPosition(ball.getPosition().x, ball.getPosition().y);
+        //double ball activated
         doubleBall.setPosition(-100, 0);
     }
 
@@ -192,15 +224,16 @@ void Game::Update()
     }
     //check collision with screen
     Vector2f g = ball.getPosition();
-    if (g.x < 0 || g.x+16> 597)
+    if (g.x < 0 || g.x+12> 597)
         dx = -dx;
     if (g.y < 0)
         dy = -dy;
-    if (g.y+16 > 600)
+    if (g.y+12 > 600)
     {
-        Reset();
-        ChangeStateTo(2);
+            Reset();
+            ChangeStateTo(2);
     }
+
 
     if (Keyboard::isKeyPressed(Keyboard::Right))
         paddle.move(6, 0);
@@ -219,4 +252,9 @@ bool Game::isCollide(Sprite s1, Sprite s2)
         return true;
     }
     return false;
+}
+void Game::scoreUpdate()
+{
+    countScore++;
+    mScore.setString("Score: "+std::to_string(countScore));
 }

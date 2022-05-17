@@ -2,7 +2,7 @@
 #include "game.h"
 #include "GameStateManager.h"
 
-Menu::Menu(RenderWindow &windowRef) : m_windowRef(windowRef) 
+Menu::Menu(RenderWindow &windowRef) : m_windowRef(windowRef) //initialise list
 {
 
     if (!font.loadFromFile("Font/crystal.ttf"))
@@ -11,19 +11,25 @@ Menu::Menu(RenderWindow &windowRef) : m_windowRef(windowRef)
     }
     t1.loadFromFile("image/mback.jpg");
     backg.setTexture(t1);
-
+//Name
+    Name.setCharacterSize(80);
+    Name.setFont(font);
+    Name.setFillColor(Color::Red);
+    Name.setString("BreakOut");
+    Name.setPosition(m_windowRef.getSize().x/2-160,0);
+//Play button
     text[0].setCharacterSize(40);
     text[0].setFont(font);
     text[0].setFillColor(sf::Color::Yellow);
     text[0].setString("Play");
     text[0].setPosition(340, 150);
-
+//Score button
     text[1].setCharacterSize(40);
     text[1].setFont(font);
     text[1].setFillColor(sf::Color::Yellow);
     text[1].setString("Score");
     text[1].setPosition(340, 235);
-
+//Exit button
     text[2].setCharacterSize(40);
     text[2].setFont(font);
     text[2].setFillColor(sf::Color::Yellow);
@@ -39,6 +45,7 @@ void Menu::draw()
     {
         m_windowRef.draw(text[i]);
     }
+    m_windowRef.draw(Name);
     m_windowRef.display();
 }
 
