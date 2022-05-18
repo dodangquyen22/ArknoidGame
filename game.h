@@ -40,6 +40,7 @@ public:
         void draw();
         bool isCollide(Sprite s1, Sprite s2);
         void scoreUpdate();
+        void playAudio(int n);
         //check-item-collect variables
         bool isRedBallTouch = false;
         bool isaddWidthTouch = false;
@@ -48,7 +49,7 @@ public:
         //random value for hiding item
         int s, t, w;
         //ball moving distance
-        float dx = -4, dy = -5;
+        float dx = -3, dy = -4;
         //score
         Text mScore;
         int countScore;
@@ -60,6 +61,8 @@ public:
         //
         Text pressToStart;
         Font font;
+        Music sound,sound1,sound2;
         RenderWindow &m_windowRef;
+        
 
 };

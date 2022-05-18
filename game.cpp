@@ -65,6 +65,11 @@ Game::Game(RenderWindow &windowRef) : m_windowRef(windowRef)//initialise list
     pressToStart.setPosition(160,280);
     pressToStart.setString("Press space to start!");
 
+    //music
+   sound.openFromFile("audio/collidewithpad.wav");//1-collide with pad
+   sound1.openFromFile("audio/collidewithbrick.ogg");//2-collide with brick
+   sound2.openFromFile("audio/die.ogg");  //3-die
+
     Reset();
 }
 
@@ -99,7 +104,6 @@ void Game::Reset()
     countScore=0;
     mScore.setString("Score: "+std::to_string(countScore));
     pressToStart.setPosition(160,280);
-
 }
 
 void Game::draw()
@@ -144,6 +148,7 @@ void Game::Update()
     {
         if (isCollide(ball, brick[i]) == true)
         {
+            playAudio(2);
             brick[i].setPosition(-100, 0);
             scoreUpdate();
             if (ball.getColor() != Color::Red)
@@ -182,6 +187,7 @@ void Game::Update()
     {
         if (isCollide(ball, brick[i]) == true)
         {
+            playAudio(2);
             brick[i].setPosition(-100, 0);
             scoreUpdate();
             if (ball.getColor() != Color::Red)
@@ -234,6 +240,7 @@ void Game::Update()
 
     if (isCollide(ball, paddle) == true)
     {
+        playAudio(1);
         dy = -(rand() % 3 + 2);
     }
     //check collision with screen
@@ -279,4 +286,21 @@ void Game::scoreUpdate()
 {
     countScore++;
     mScore.setString("Score: "+std::to_string(countScore));
+}
+void Game::playAudio(int n)
+{
+   switch (n)
+   {
+    case 1:
+        sound.play();
+        break;
+    case 2:
+        sound1.play();
+        break;
+    case 3:
+        sound2.play();
+        break;
+   default:
+       break;
+   } 
 }
