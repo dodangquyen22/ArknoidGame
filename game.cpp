@@ -24,7 +24,7 @@ Game::Game(RenderWindow &windowRef) : m_windowRef(windowRef)//initialise list
     t1.loadFromFile("image/background.png");//backgound image
     t2.loadFromFile("image/ball.png");//ball image
     t3.loadFromFile("image/paddle.png");//paddle image
-    t4.loadFromFile("image/brick.png");
+    t4.loadFromFile("image/brick.png");//brick image
     taddPaddleWidth.loadFromFile("image/addWidthPad.png");
     tdoubleBall.loadFromFile("image/doubleBall.png");
     tLives.loadFromFile("image/lives.png");
@@ -33,10 +33,14 @@ Game::Game(RenderWindow &windowRef) : m_windowRef(windowRef)//initialise list
     ball.setTexture(t2);
     secondBall.setTexture(t2);
     paddle.setTexture(t3);
+    //additional item set texture
     redBall.setTexture(t2);
     redBall.setColor(Color::Red);
     doubleBall.setTexture(tdoubleBall);
     addWidthPad.setTexture(taddPaddleWidth);
+    addLives.setTexture(tLives);
+    addLives.setScale(0.5,0.5);
+
     //set position
     secondBall.setPosition(-100, 0);
     ball.setPosition(296, 573);
@@ -65,11 +69,14 @@ Game::Game(RenderWindow &windowRef) : m_windowRef(windowRef)//initialise list
     pressToStart.setPosition(160,280);
     pressToStart.setString("Press space to start!");
 
-    //music
-   sound.openFromFile("audio/collidewithpad.wav");//1-collide with pad
-   sound1.openFromFile("audio/collidewithbrick.ogg");//2-collide with brick
-   sound2.openFromFile("audio/die.ogg");  //3-die
-
+    //sound
+   soundB.loadFromFile("audio/collidewithpad.wav");//1-collide with pad
+   sound1B.loadFromFile("audio/collidewithbrick.ogg");//2-collide with brick
+   sound2B.loadFromFile("audio/die.ogg");  //3-die
+   
+   sound.setBuffer(soundB);
+   sound1.setBuffer(sound1B);
+   sound2.setBuffer(sound2B);
     Reset();
 }
 
@@ -92,14 +99,16 @@ void Game::Reset()
         }
     }
 
-    s = rand() % 60 + 80;
-    t = rand() % 60 + 40;
-    w = rand() % 40;
-
+    s = rand() % 20 + 60;
+    t = rand() % 20 + 80;
+    w = rand() % 20 + 100;
+    l = rand() % 20 + 120;
     redBall.setPosition(brick[s].getPosition().x, brick[s].getPosition().y);
     doubleBall.setPosition(brick[t].getPosition().x, brick[t].getPosition().y);
     addWidthPad.setPosition(brick[w].getPosition().x, brick[w].getPosition().y);
-    isRedBallTouch = isDoubleBallTouch = isaddWidthTouch = false;
+    addLives.setPosition(brick[l].getPosition().x,brick[l].getPosition().y);
+
+    isRedBallTouch = isDoubleBallTouch = isaddWidthTouch = isLiveTouch = false;
     paddle.setScale(1,1);
     countScore=0;
     mScore.setString("Score: "+std::to_string(countScore));
@@ -115,6 +124,7 @@ void Game::draw()
     m_windowRef.draw(redBall);
     m_windowRef.draw(doubleBall);
     m_windowRef.draw(addWidthPad);
+    m_windowRef.draw(addLives);
     m_windowRef.draw(mScore);
     m_windowRef.draw(mLives);
     m_windowRef.draw(pressToStart);
@@ -165,6 +175,10 @@ void Game::Update()
             {
                 isaddWidthTouch = true;
             }
+            if (i == l)
+            {
+                isLiveTouch=true;
+            }
         }
     }
 
@@ -180,7 +194,10 @@ void Game::Update()
     {
         addWidthPad.move(0, 0.75);
     }
-
+    if(isLiveTouch==true)
+    {
+        addLives.move(0,0.75);
+    }
     ball.move(0, dy);
 
     for (int i = 0; i < n; i++)
@@ -205,6 +222,10 @@ void Game::Update()
             {
                 isaddWidthTouch = true;
             }
+            if (i == l)
+            {
+                isLiveTouch=true;
+            }
         }
     }
 
@@ -220,7 +241,11 @@ void Game::Update()
     {
         addWidthPad.move(0, 0.75);
     }
-    // Ktra paddle co cham duoc item khong
+    if  (isLiveTouch == true)
+    {
+        addLives.move(0,0.75);
+    }
+    // check collect item
     if (isCollide(redBall, paddle))
     {
         ball.setColor(Color::Red);
@@ -237,11 +262,16 @@ void Game::Update()
         //double ball activated
         doubleBall.setPosition(-100, 0);
     }
+    if(isCollide(addLives,paddle))
+    {
+        addLives.setPosition(-100,0);
+        countLive++;
+    }
 
     if (isCollide(ball, paddle) == true)
     {
         playAudio(1);
-        dy = -(rand() % 3 + 2);
+        dy = -(rand() % 2 + 2);
     }
     //check collision with screen
     Vector2f g = ball.getPosition();
@@ -250,7 +280,8 @@ void Game::Update()
     if (g.y < 0)
         dy = -dy;
     if (g.y+12 > 600)
-    {
+    {  
+        playAudio(3);
         countLive--;
         isGameStarted=false;
         Reset();
@@ -258,7 +289,7 @@ void Game::Update()
         {
             Reset();
             ChangeStateTo(2);
-            countLive=3;
+            //countLive=3;
         }
        
     }

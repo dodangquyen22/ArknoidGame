@@ -32,7 +32,7 @@ public:
         int n = 1000;
         //additional item
         Texture  tdoubleBall, taddPaddleWidth;
-        Sprite   redBall, addWidthPad, doubleBall;
+        Sprite   redBall, addWidthPad, doubleBall, addLives;
         //game function
         void Update();
         void HandleEvent(sf::Event &event);
@@ -45,11 +45,12 @@ public:
         bool isRedBallTouch = false;
         bool isaddWidthTouch = false;
         bool isDoubleBallTouch = false;
+        bool isLiveTouch=false;
         bool isGameStarted=false;
         //random value for hiding item
-        int s, t, w;
+        int s, t, w, l;
         //ball moving distance
-        float dx = -3, dy = -4;
+        float dx = -2, dy = -3;
         //score
         Text mScore;
         int countScore;
@@ -61,7 +62,9 @@ public:
         //
         Text pressToStart;
         Font font;
-        Music sound,sound1,sound2;
+        //sound
+        SoundBuffer soundB,sound1B,sound2B;
+        Sound sound,sound1,sound2;
         RenderWindow &m_windowRef;
         
 
