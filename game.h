@@ -1,7 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include <sstream>
 #include <iostream>
 using namespace sf;
 using namespace std;
@@ -31,7 +30,7 @@ public:
         Sprite brick[1000];
         int n = 1000;
         //additional item
-        Texture  tdoubleBall, taddPaddleWidth;
+        Texture  tDoubleBall, tAddPaddleWidth;
         Sprite   redBall, addWidthPad, doubleBall, addLives;
         //game function
         void Update();
@@ -43,7 +42,7 @@ public:
         void playAudio(int n);
         //check-item-collect variables
         bool isRedBallTouch = false;
-        bool isaddWidthTouch = false;
+        bool isAddWidthTouch = false;
         bool isDoubleBallTouch = false;
         bool isLiveTouch=false;
         bool isGameStarted=false;
@@ -66,6 +65,4 @@ public:
         SoundBuffer soundB,sound1B,sound2B;
         Sound sound,sound1,sound2;
         RenderWindow &m_windowRef;
-        
-
 };

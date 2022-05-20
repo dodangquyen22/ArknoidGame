@@ -10,7 +10,7 @@ public:
     void HandleEvent(Event &e);
     void MoveLeft();
     void MoveRight();
-    int getPrsessed();
+    int  getPressed();
     void Update();
 
 private:

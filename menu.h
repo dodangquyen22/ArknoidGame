@@ -13,7 +13,7 @@ public:
     void HandleEvent(Event &eMenu);
     void MoveUp();
     void MoveDown();
-    int getPrsessed();
+    int  getPressed();
     void draw();
     void Update();
 

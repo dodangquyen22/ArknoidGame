@@ -25,8 +25,8 @@ Game::Game(RenderWindow &windowRef) : m_windowRef(windowRef)//initialise list
     t2.loadFromFile("image/ball.png");//ball image
     t3.loadFromFile("image/paddle.png");//paddle image
     t4.loadFromFile("image/brick.png");//brick image
-    taddPaddleWidth.loadFromFile("image/addWidthPad.png");
-    tdoubleBall.loadFromFile("image/doubleBall.png");
+    tAddPaddleWidth.loadFromFile("image/addWidthPad.png");
+    tDoubleBall.loadFromFile("image/doubleBall.png");
     tLives.loadFromFile("image/lives.png");
     //set texture
     back.setTexture(t1);
@@ -36,8 +36,8 @@ Game::Game(RenderWindow &windowRef) : m_windowRef(windowRef)//initialise list
     //additional item set texture
     redBall.setTexture(t2);
     redBall.setColor(Color::Red);
-    doubleBall.setTexture(tdoubleBall);
-    addWidthPad.setTexture(taddPaddleWidth);
+    doubleBall.setTexture(tDoubleBall);
+    addWidthPad.setTexture(tAddPaddleWidth);
     addLives.setTexture(tLives);
     addLives.setScale(0.5,0.5);
 
@@ -70,13 +70,13 @@ Game::Game(RenderWindow &windowRef) : m_windowRef(windowRef)//initialise list
     pressToStart.setString("Press space to start!");
 
     //sound
-   soundB.loadFromFile("audio/collidewithpad.wav");//1-collide with pad
-   sound1B.loadFromFile("audio/collidewithbrick.ogg");//2-collide with brick
-   sound2B.loadFromFile("audio/die.ogg");  //3-die
+    soundB.loadFromFile("audio/collidewithpad.wav");//1-collide with pad
+    sound1B.loadFromFile("audio/collidewithbrick.ogg");//2-collide with brick
+    sound2B.loadFromFile("audio/die.ogg");  //3-die
    
-   sound.setBuffer(soundB);
-   sound1.setBuffer(sound1B);
-   sound2.setBuffer(sound2B);
+    sound.setBuffer(soundB);
+    sound1.setBuffer(sound1B);
+    sound2.setBuffer(sound2B);
     Reset();
 }
 
@@ -108,7 +108,7 @@ void Game::Reset()
     addWidthPad.setPosition(brick[w].getPosition().x, brick[w].getPosition().y);
     addLives.setPosition(brick[l].getPosition().x,brick[l].getPosition().y);
 
-    isRedBallTouch = isDoubleBallTouch = isaddWidthTouch = isLiveTouch = false;
+    isRedBallTouch = isDoubleBallTouch = isAddWidthTouch = isLiveTouch = false;
     paddle.setScale(1,1);
     countScore=0;
     mScore.setString("Score: "+std::to_string(countScore));
@@ -173,7 +173,7 @@ void Game::Update()
             }
             if (i == w)
             {
-                isaddWidthTouch = true;
+                isAddWidthTouch = true;
             }
             if (i == l)
             {
@@ -184,19 +184,19 @@ void Game::Update()
 
     if (isRedBallTouch == true)
     {
-        redBall.move(0, 0.75);
+        redBall.move(0, 0.5);
     }
     if (isDoubleBallTouch == true)
     {
-        doubleBall.move(0, 0.75);
+        doubleBall.move(0, 0.5);
     }
-    if (isaddWidthTouch == true)
+    if (isAddWidthTouch == true)
     {
-        addWidthPad.move(0, 0.75);
+        addWidthPad.move(0, 0.5);
     }
     if(isLiveTouch==true)
     {
-        addLives.move(0,0.75);
+        addLives.move(0,0.5);
     }
     ball.move(0, dy);
 
@@ -220,7 +220,7 @@ void Game::Update()
             }
             if (i == w)
             {
-                isaddWidthTouch = true;
+                isAddWidthTouch = true;
             }
             if (i == l)
             {
@@ -231,19 +231,19 @@ void Game::Update()
 
     if (isRedBallTouch == true)
     {
-        redBall.move(0, 0.75);
+        redBall.move(0, 0.5);
     }
     if (isDoubleBallTouch == true)
     {
-        doubleBall.move(0, 0.75);
+        doubleBall.move(0, 0.5);
     }
-    if (isaddWidthTouch == true)
+    if (isAddWidthTouch == true)
     {
-        addWidthPad.move(0, 0.75);
+        addWidthPad.move(0, 0.5);
     }
     if  (isLiveTouch == true)
     {
-        addLives.move(0,0.75);
+        addLives.move(0,0.5);
     }
     // check collect item
     if (isCollide(redBall, paddle))
@@ -289,12 +289,12 @@ void Game::Update()
         {
             Reset();
             ChangeStateTo(2);
-            //countLive=3;
+            countLive=3;
         }
        
     }
 
-
+    //paddle move
     if (Keyboard::isKeyPressed(Keyboard::Right))
         paddle.move(6, 0);
     if (Keyboard::isKeyPressed(Keyboard::Left))
@@ -313,11 +313,13 @@ bool Game::isCollide(Sprite s1, Sprite s2)
     }
     return false;
 }
+
 void Game::scoreUpdate()
 {
     countScore++;
     mScore.setString("Score: "+std::to_string(countScore));
 }
+
 void Game::playAudio(int n)
 {
    switch (n)
@@ -331,7 +333,7 @@ void Game::playAudio(int n)
     case 3:
         sound2.play();
         break;
-   default:
+    default:
        break;
    } 
 }

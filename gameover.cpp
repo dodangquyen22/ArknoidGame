@@ -53,11 +53,11 @@ void GameOver::HandleEvent(Event &e)
         }
         if (e.key.code == sf::Keyboard::Return)
         {
-            if (getPrsessed() == 0)
+            if (getPressed() == 0)
             {
                 ChangeStateTo(1);
             }
-            if (getPrsessed() == 1)
+            if (getPressed() == 1)
             {
                 // close window
                 m_windowRef.close();
@@ -93,7 +93,7 @@ void GameOver::MoveRight()
         text[numChoosen].setFillColor(sf::Color::Green);
     }
 }
-int GameOver::getPrsessed()
+int GameOver::getPressed()
 {
     return numChoosen;
 }

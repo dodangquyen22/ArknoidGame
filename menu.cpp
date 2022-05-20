@@ -4,11 +4,12 @@
 
 Menu::Menu(RenderWindow &windowRef) : m_windowRef(windowRef) //initialise list
 {
-
+//Load font
     if (!font.loadFromFile("Font/crystal.ttf"))
     {
         cout << "Fail to load font!";
     }
+//Load and set background
     t1.loadFromFile("image/mback.jpg");
     backg.setTexture(t1);
 //Name
@@ -16,7 +17,7 @@ Menu::Menu(RenderWindow &windowRef) : m_windowRef(windowRef) //initialise list
     Name.setFont(font);
     Name.setFillColor(Color::Red);
     Name.setString("BreakOut");
-    Name.setPosition(m_windowRef.getSize().x/2-160,0);
+    Name.setPosition(m_windowRef.getSize().x/2-200,0);
 //Play button
     text[0].setCharacterSize(40);
     text[0].setFont(font);
@@ -63,12 +64,12 @@ void Menu::HandleEvent(Event &eMenu)
         }
         if (eMenu.key.code == sf::Keyboard::Return)
         {
-            if (getPrsessed() == 0)
+            if (getPressed() == 0)
             {
                 // 1 - Game
                 ChangeStateTo(1);
             }
-            if (getPrsessed() == 2)
+            if (getPressed() == 2)
             {
                 m_windowRef.close();
             }
@@ -107,7 +108,7 @@ void Menu::MoveDown()
         text[numChoosen].setFillColor(sf::Color::Green);
     }
 }
-int Menu::getPrsessed()
+int Menu::getPressed()
 {
     return numChoosen;
 }
