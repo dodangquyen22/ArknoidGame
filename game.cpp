@@ -1,5 +1,5 @@
-#include "GamePlay.h"
-#include "GameOver.h"
+#include "game.h"
+#include "gameover.h"
 #include "GameStateManager.h"
 #include <iostream>
 
