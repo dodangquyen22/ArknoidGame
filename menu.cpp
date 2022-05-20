@@ -1,5 +1,5 @@
-#include "menu.h"
-#include "game.h"
+#include "Menu.h"
+#include "GamePlay.h"
 #include "GameStateManager.h"
 
 Menu::Menu(RenderWindow &windowRef) : m_windowRef(windowRef) //initialise list

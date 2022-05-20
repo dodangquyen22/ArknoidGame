@@ -1,6 +1,6 @@
-#include "menu.h"
-#include "game.h"
-#include "gameover.h"
+#include "Menu.h"
+#include "GamePlay.h"
+#include "GameOver.h"
 #include "GameStateManager.h"
 
 

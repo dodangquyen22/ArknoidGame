@@ -1,4 +1,4 @@
-#include "gameover.h"
+#include "GameOver.h"
 #include <iostream>
 #include "GameStateManager.h"
 
