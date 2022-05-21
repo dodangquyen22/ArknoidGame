@@ -6,7 +6,7 @@
 ---
 ### *Yêu cầu:*
 * Visual Studio Code ( hoặc bất kì trình biên dịch C++ nào khác, ở đây tôi sử dụng Visual Studio Code ) 
-.* Mingw32 ( phiên bản 7.3.0 )
+* Mingw32 ( phiên bản 7.3.0 )
 * Thư viện SFML
 ### *Cách chạy chương trình:*
 * Mở Visual Studio Code => Terminal => New Terminal
